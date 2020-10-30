@@ -1,0 +1,6 @@
+framework module Pods_Pomac_Task {
+  umbrella header "Pods-Pomac Task-umbrella.h"
+
+  export *
+  module * { export * }
+}
