@@ -41,7 +41,9 @@ class NewsListViewController: UIViewController {
     }
     
     @objc func reloadFunction(sender: UIButton){
+        //hide reload button when loader starts
         sender.isHidden = true
+        
         getNewsList()
     }
     
@@ -60,7 +62,7 @@ class NewsListViewController: UIViewController {
 extension NewsListViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if(showReloadTableCell){
+        if(showReloadTableCell){ //return 1 cell which is the reload table cell
             return 1
         }else{
             return newsListViewModel.newsList.count
@@ -73,6 +75,7 @@ extension NewsListViewController: UITableViewDataSource, UITableViewDelegate {
             cell.reloadButton.addTarget(self, action: #selector(reloadFunction), for: .touchUpInside)
             
             if(showReloadTableCell){
+                //show reload button again if it was hidden
                 cell.reloadButton.isHidden = false
             }
             
@@ -87,10 +90,11 @@ extension NewsListViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        //avoid clicking on reload cell
         if(indexPath.row < newsListViewModel.newsList.count){
-        let detailsVC = MainStoryboardRouter.instantiateNewsListViewController()
-        detailsVC.newsDetailsViewModel.newsDetailsModel = newsListViewModel.newsList[indexPath.row]
-        navigationController?.pushViewController(detailsVC, animated: true)
+            let detailsVC = MainStoryboardRouter.instantiateNewsListViewController()
+            detailsVC.newsDetailsViewModel.newsDetailsModel = newsListViewModel.newsList[indexPath.row]
+            navigationController?.pushViewController(detailsVC, animated: true)
         }
     }
 }
@@ -110,7 +114,10 @@ extension NewsListViewController:ViewModelUIDelegate{
     func showErrorView(error: String) {
         hideLoaderIndicator()
         showReloadTableCell = true
+        
+        //reload table to show reload cell
         newsTableView.reloadData()
+        
         self.view.makeToast(error)
     }
 }

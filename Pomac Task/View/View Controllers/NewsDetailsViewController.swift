@@ -23,6 +23,7 @@ class NewsDetailsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        //change controller title
         self.title = "Article Data"
         
         setDataToView()
